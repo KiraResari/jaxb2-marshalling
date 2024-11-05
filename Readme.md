@@ -22,33 +22,40 @@ Basically, the goal is a SOAP request that looks like this:
 However, what the marshaller generates when MTOM is disabled is:
 
 ```xml
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <SOAP-ENV:Body>
-        <MyRequest xmlns="http://my.company.com/xsd/portals/v4_0">
-            <binaryData>
-                <blob>
-                    <xop:Include xmlns:xop="http://www.w3.org/2004/08/xop/include" href="cid:3be5f4d8-50ed-4f88-8e50-778f6cc70c74%40null"/>
-                </blob>
-                <extension>pdf</extension>
-            </binaryData>
-        </MyRequest>
-    </SOAP-ENV:Body>
+  "------=_Part_0_619629247.1730830278669
+Content-Type: application/xop+xml; charset=utf-8; type="text/xml"
+
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+	<SOAP-ENV:Header/>
+	<SOAP-ENV:Body>
+		<ns3:MySoapRequest xmlns:ns3="http://my.company.com/xsd/portals/v4_0">
+			<binaryData>
+				<blob>
+					<xop:Include xmlns:xop="http://www.w3.org/2004/08/xop/include" href="cid:aa093c15-eab7-446d-8845-a908a4a4d7f1%40null"/>
+				</blob>
+				<extension>pdf</extension>
+			</binaryData>
+		</ns3:MySoapRequest>
+	</SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
+------=_Part_0_619629247.1730830278669
+Content-Type: application/pdf
+Content-ID: <aa093c15-eab7-446d-8845-a908a4a4d7f1@null>
+Content-Transfer-Encoding: binary
+
+123456789ABCDEF0
+------=_Part_0_619629247.1730830278669--"
 ```
 
 ...with the blob in an attachment, or alternatively, with MTOM disabled:
 
 ```xml
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <SOAP-ENV:Body>
-        <MyRequest xmlns="http://my.company.com/xsd/portals/v4_0">
+[...]
             <binaryData>
                 <blob/>
                 <extension>pdf</extension>
             </binaryData>
-        </MyRequest>
-    </SOAP-ENV:Body>
-</SOAP-ENV:Envelope>
+[...]
 ```
 
 ...with the blob nowhere to be found
@@ -63,10 +70,7 @@ However, what the marshaller generates when MTOM is disabled is:
 ## "Rules"
 
 * Since in actual practice, the SOAP-related classes are dynamically generated at runtime, they must not be modified to solve this
-  * In this case, that refers to the following classes:
-    * `BlobRequest`
-    * `MySoapRequest`
-    * `ObjectFactory`
+  * In this case, that refers to all the classes in the `generated` package (which in this case are not actually generated, but in a real use case, those would be the classes generated from the WSDL)
 * Likely candidates for modification are:
   * `Jaxb2MarshallerConfig `
   * `MySoapClient `

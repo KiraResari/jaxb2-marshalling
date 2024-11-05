@@ -6,6 +6,9 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
+import com.tri_tail.jaxb2_marshalling.generated.BinaryData;
+import com.tri_tail.jaxb2_marshalling.generated.MySoapRequest;
+
 import jakarta.activation.DataHandler;
 
 @Component

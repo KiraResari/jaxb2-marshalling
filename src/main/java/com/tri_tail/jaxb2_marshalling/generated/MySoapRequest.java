@@ -1,4 +1,4 @@
-package com.tri_tail.jaxb2_marshalling;
+package com.tri_tail.jaxb2_marshalling.generated;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
