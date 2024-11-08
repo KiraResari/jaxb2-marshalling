@@ -8,12 +8,10 @@ Basically, the goal is a SOAP request that looks like this:
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <SOAP-ENV:Body>
         <MyRequest xmlns="http://my.company.com/xsd/portals/v4_0">
-            <documentList xmlns="">
-                <binaryData>
+		<binaryData>
                     <blob>123456789ABCDEF0</blob>
                     <extension>pdf</extension>
                 </binaryData>
-            </documentList>
         </MyRequest>
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
