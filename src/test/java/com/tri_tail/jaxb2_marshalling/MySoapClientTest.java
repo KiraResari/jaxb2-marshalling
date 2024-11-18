@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import java.util.Base64;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ public class MySoapClientTest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         request.writeTo(out);
         String soapMessageString = out.toString(StandardCharsets.UTF_8.name());
-        assertThat(soapMessageString).contains("<blob>123456789ABCDEF0</blob>");
+        // Base64 encoding of "123456789ABCDEF0"
+        String expectedBase64 = Base64.getEncoder().encodeToString(blobRequest.getBlob().getBytes(
+            StandardCharsets.UTF_8));
+        assertThat(soapMessageString).contains(String.format("<blob>%s</blob>", expectedBase64));
     }
 }
