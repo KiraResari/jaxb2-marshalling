@@ -11,7 +11,7 @@ public class Jaxb2MarshallerConfig {
     public Jaxb2Marshaller myMarshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
         marshaller.setContextPath("com.tri_tail.jaxb2_marshalling.generated");
-        marshaller.setMtomEnabled(true); 
+        marshaller.setMtomEnabled(false);
         return marshaller;
     }
 }

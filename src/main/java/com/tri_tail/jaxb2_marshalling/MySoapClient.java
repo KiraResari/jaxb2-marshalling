@@ -1,5 +1,6 @@
 package com.tri_tail.jaxb2_marshalling;
 
+import jakarta.activation.DataSource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -28,7 +29,9 @@ public class MySoapClient extends WebServiceGatewaySupport {
 
     public void sendDocuments(BlobRequest blobRequest) {
         var binaryData = new BinaryData();
-        DataHandler dataHandler = new DataHandler(blobRequest.getBlob(), "application/pdf");
+        //DataHandler dataHandler = new DataHandler(blobRequest.getBlob(), "application/pdf");
+        DataSource ds = new ByteArrayDataSource(blobRequest.getBlob().getBytes(), "application/pdf");
+        DataHandler dataHandler = new DataHandler(ds);
         binaryData.setBlob(dataHandler);
         binaryData.setExtension(blobRequest.getExtension());
         var soapRequest = new MySoapRequest();
